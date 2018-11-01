@@ -1392,7 +1392,7 @@ yyreduce:
                 (yyval.typeInfo).type = INT; 
 				(yyval.typeInfo).integer = yylval.typeInfo.integer;
 				(yyval.typeInfo).boolean = true;
-				printf("Values of $$ and 1$ %d %d", (yyval.typeInfo).integer, yylval.typeInfo.integer);
+				//printf("Values of $$ and 1$ %d %d", $$.integer, yylval.typeInfo.integer);
 			}
 #line 1398 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
@@ -1549,21 +1549,21 @@ yyreduce:
 							if(arithmetic.top()=='+')
 							{
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer + (yyvsp[0].typeInfo).integer;
-								printf("Values of $$ and 1$ %d %d\n\n", (yyval.typeInfo).integer, (yyvsp[0].typeInfo).integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top() == '-')
 							{
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer - (yyvsp[0].typeInfo).integer;
-								printf("Values of $$ and 1$ %d %d\n\n", (yyval.typeInfo).integer, (yyvsp[0].typeInfo).integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top()== '*')
 							{
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer * (yyvsp[0].typeInfo).integer;
-								printf("Values of $$ and 1$ %d %d\n\n", (yyval.typeInfo).integer, (yyvsp[0].typeInfo).integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -1575,7 +1575,7 @@ yyreduce:
 								}
 
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer / (yyvsp[0].typeInfo).integer;
-								printf("Values of $$ and 1$ %d %d\n\n", (yyval.typeInfo).integer, (yyvsp[0].typeInfo).integer);
+							//	printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 

@@ -159,7 +159,7 @@ N_CONST		: T_INTCONST
                 $$.type = INT; 
 				$$.integer = yylval.typeInfo.integer;
 				$$.boolean = true;
-				printf("Values of $$ and 1$ %d %d", $$.integer, yylval.typeInfo.integer);
+				//printf("Values of $$ and 1$ %d %d", $$.integer, yylval.typeInfo.integer);
 			}
             | T_STRCONST
 			{
@@ -274,21 +274,21 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							if(arithmetic.top()=='+')
 							{
 								$$.integer = $2.integer + $3.integer;
-								printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top() == '-')
 							{
 								$$.integer = $2.integer - $3.integer;
-								printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top()== '*')
 							{
 								$$.integer = $2.integer * $3.integer;
-								printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -300,7 +300,7 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 								}
 
 								$$.integer = $2.integer / $3.integer;
-								printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
+							//	printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
