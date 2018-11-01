@@ -44,7 +44,7 @@ public:
     updateTypeInfo(typeInfo, theType);
   }
 
-  // update struct 
+  /*
   void updateTypeInfo(TYPE_INFO& _new, TYPE_INFO& old)
   {
     _new.type = old.type;
@@ -52,11 +52,12 @@ public:
     _new.boolean = old.boolean;
     _new.str = old.str;
   }
+  */
 
   // Accessors
   string getName() const { return name; }
   TYPE_INFO getTypeInfo() const { return typeInfo; }
-  int getInteger() {return typeInfo.type;}
+  int getInteger() {return typeInfo.integer;}
   //int getBoolean() {return typeInfo.boolean;}
   //int getCharacter() {return typeInfo.str;}
 };
