@@ -1,0 +1,9 @@
+You must specify a file in the command line!		      |	TOKEN: NIL       LEXEME: nil
+							      >	CONST -> nil
+							      >	EXPR -> CONST
+							      >	START -> EXPR
+							      >
+							      >	---- Completed parsing ----
+							      >
+							      >
+							      >	Value of the expression is: nil

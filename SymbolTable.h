@@ -11,7 +11,7 @@ private:
   std::map<string, SYMBOL_TABLE_ENTRY> hashTable;
 
 public:
-  //Constructor
+  //Constructor 
   SYMBOL_TABLE( ) { }
 
   // Add symbol table entry x to this symbol table.
