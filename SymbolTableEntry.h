@@ -44,7 +44,7 @@ public:
     updateTypeInfo(typeInfo, theType);
   }
 
-  /*
+  
   void updateTypeInfo(TYPE_INFO& _new, TYPE_INFO& old)
   {
     _new.type = old.type;
@@ -52,7 +52,7 @@ public:
     _new.boolean = old.boolean;
     _new.str = old.str;
   }
-  */
+  
 
   // Accessors
   string getName() const { return name; }
