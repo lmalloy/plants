@@ -39,7 +39,6 @@ bool isIntOrStrCompatible(const int theType);
 
 void beginScope();
 void endScope();
-void copyInfo(TYPE_INFO& target, TYPE_INFO& source);
 void cleanUp();
 TYPE_INFO findEntryInAnyScope(const string theName);
 
@@ -118,6 +117,9 @@ N_START		: N_EXPR
 N_EXPR		: N_CONST
 			{
 				printRule("EXPR", "CONST");
+				
+				//copyInfo($$,$1);
+				
 				$$.type = $1.type;
 				$$.integer = $1.integer;
 				$$.boolean = $1.boolean;
@@ -126,8 +128,7 @@ N_EXPR		: N_CONST
 			| T_IDENT
 			{
 				printRule("EXPR", "IDENT");
-				string ident = string($1);
-				TYPE_INFO exprTypeInfo = findEntryInAnyScope(ident);
+				TYPE_INFO exprTypeInfo = findEntryInAnyScope(string($1));
 
 				if (exprTypeInfo.type == UNDEFINED) 
 				{
@@ -135,22 +136,23 @@ N_EXPR		: N_CONST
 					return(0);
 				}
 				
-				copyInfo($$,exprTypeInfo);
+				//copyInfo($$,exprTypeInfo);
+				
+				$$.type = exprTypeInfo.type;
+				$$.integer = exprTypeInfo.integer;
+				$$.boolean = exprTypeInfo.boolean;
+				$$.str = exprTypeInfo.str;
 			}
 			| T_LPAREN N_PARENTHESIZED_EXPR T_RPAREN
 			{
 				printRule("EXPR", "( PARENTHESIZED_EXPR )");
+				//copyInfo($$,$2);
+				
 				$$.type = $2.type;
 				$$.integer = $2.integer;
 				$$.boolean = $2.boolean;
 				$$.str = $2.str;
-
-				if($$.type == BOOL)
-				{
-					$$.boolean = $2.boolean;
-				}
-				
-				copyInfo($$,$2);
+	
 			};
 
 N_CONST		: T_INTCONST
@@ -166,6 +168,7 @@ N_CONST		: T_INTCONST
 				printRule("CONST", "STRCONST");
                 $$.type = STR;
 				$$.str = yylval.typeInfo.str;
+				$$.boolean = true;
 			}
             | T_T
             {
@@ -183,80 +186,98 @@ N_CONST		: T_INTCONST
 N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "ARITHLOGIC_EXPR");
-							copyInfo($$,$1);
-							/*$$.type = $1.type;
+							
+							//copyInfo($$,$1);
+							
+							
+							$$.type = $1.type;
 							$$.integer = $1.integer;
 							$$.boolean = $1.boolean;
 							$$.str = $1.str;
-
-							if($$.type==BOOL)
-							{
-								$$.boolean = $1.boolean;
-							} */
 								
 						}
                       	| N_IF_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "IF_EXPR");
-							copyInfo($$,$1);
-							//$$.type = $1.type; 
+							//copyInfo($$,$1);
+							
+							$$.type = $1.type;
+							$$.integer = $1.integer;
+							$$.boolean = $1.boolean;
+							$$.str = $1.str;
 						}
                       	| N_LET_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "LET_EXPR");
-							copyInfo($$,$1);
-							//$$.type = $1.type; 
+							//copyInfo($$,$1);
+							
+							$$.type = $1.type;
+							$$.integer = $1.integer;
+							$$.boolean = $1.boolean;
+							$$.str = $1.str;
 						}
 						| N_PRINT_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "PRINT_EXPR");
-							copyInfo($$,$1);
+							//copyInfo($$,$1);
 							
-							/*$$.type = $1.type; 
 							$$.type = $1.type;
 							$$.integer = $1.integer;
 							$$.boolean = $1.boolean;
-							$$.str = $1.str;*/
+							$$.str = $1.str;
+
 						}
 						| N_INPUT_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "INPUT_EXPR");
-							copyInfo($$,$1);
-							//$$.type = $1.type; 
+							//copyInfo($$,$1);
+							
+							$$.type = $1.type;
+							$$.integer = $1.integer;
+							$$.boolean = $1.boolean;
+							$$.str = $1.str;
 						}
 						| N_EXPR_LIST 
 						{
 							printRule("PARENTHESIZED_EXPR", "EXPR_LIST");
-							copyInfo($$,$1);
-							/*$$.type = $1.type;
+							//copyInfo($$,$1);
+							
+							$$.type = $1.type;
 							$$.integer = $1.integer;
 							$$.boolean = $1.boolean;
-							$$.str = $1.str;*/
+							$$.str = $1.str;
 						};
 
 N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 					{
 						printRule("ARITHLOGIC_EXPR", "UN_OP EXPR");
+											
+						//copyInfo($$,$2);
+						
+						$$.type = $2.type;
+						$$.integer = $2.integer;
+						$$.boolean = $2.boolean;
+						$$.str = $2.str;
+						
 						$$.type = BOOL; 
-						copyInfo($$,$2);
-
+						//printf("bool: %d", $2.boolean);
 						if($2.boolean == false)
 						{
-							$$.boolean = false;
+							$$.boolean = true;
 						}
 
-						else if($2.boolean == true)
+						else 
 						{
-							$$.boolean = true;
+							$$.boolean = false;
 						}
 					}
 					| N_BIN_OP N_EXPR N_EXPR
 					{
 						printRule("ARITHLOGIC_EXPR", "BIN_OP EXPR EXPR");
 						$$.type = BOOL;
-						switch ($1)
+						
+						if($1 == ARITHMETIC_OP)
 						{
-						case (ARITHMETIC_OP) :
 							$$.type = INT;
 
 							if (!isIntCompatible($2.type)) 
@@ -280,8 +301,9 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 
 							else if(arithmetic.top() == '-')
 							{
+								$$.boolean = true;
 								$$.integer = $2.integer - $3.integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
+								//printf("Values of $$ and 1$ %d %d\n\n", $$., $3.integer);
 								arithmetic.pop();
 							}
 
@@ -303,13 +325,17 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							//	printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
-
-							break;
-
-					case (LOGICAL_OP) :
-							break;
-
-						case (RELATIONAL_OP) :
+					}
+					else if ($1 == LOGICAL_OP)
+					{
+						if($2.type & $3.type == INT|STR)
+						{
+							$$.type = BOOL;
+							$$.boolean = true;
+						}
+					}
+						else if ($1 == RELATIONAL_OP)
+						{
 							if (!isIntOrStrCompatible($2.type)) 
 							{
 								yyerror("Arg 1 must be integer or string");
@@ -417,20 +443,35 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 								relational.pop();
 							}
 
-							break; 
-						}  // end switch
+						} //END RELATIONAL_OP
+						
 					};
 
 N_IF_EXPR    	: T_IF N_EXPR N_EXPR N_EXPR
 				{
 					printRule("IF_EXPR", "if EXPR EXPR EXPR");
+					
+					//printf("t_if: %d ", $2.boolean);
+					//printf("n_expr: %d ", $3.boolean);
+					//printf("t_n_: %d ", $4.boolean);
+					
 					if($2.boolean == true)
 					{
-						copyInfo($$,$3);
+						//copyInfo($$,$3);
+						
+						$$.type = $3.type;
+						$$.integer = $3.integer;
+						$$.boolean = $3.boolean;
+						$$.str = $3.str;
 					}
 					else
 					{
-						copyInfo($$,$4);
+						$$.type = $4.type;
+						$$.integer = $4.integer;
+						$$.boolean = $4.boolean;
+						$$.str = $4.str;
+						
+						//copyInfo($$,$4);
 					}
 					
 					//$$.type = $3.type | $4.type; 
@@ -440,8 +481,13 @@ N_LET_EXPR      : T_LETSTAR T_LPAREN N_ID_EXPR_LIST T_RPAREN N_EXPR
 				{
 					printRule("LET_EXPR", "let* ( ID_EXPR_LIST ) EXPR");
 					endScope();
-					copyInfo($$,$5);
-					//$$.type = $5.type; 
+					
+					$$.type = $5.type;
+					$$.integer = $5.integer;
+					$$.boolean = $5.boolean;
+					$$.str = $5.str;
+					
+					//copyInfo($$,$5); 
 				};
 
 N_ID_EXPR_LIST  : /* epsilon */
@@ -466,39 +512,44 @@ N_ID_EXPR_LIST  : /* epsilon */
 N_PRINT_EXPR    : T_PRINT N_EXPR
 				{
 					printRule("PRINT_EXPR", "print EXPR");
-					copyInfo($$,$2);
-					/*$$.type = $2.type;
+					//copyInfo($$,$2);
+					
+					$$.type = $2.type;
 					$$.integer = $2.integer;
 					$$.boolean = $2.boolean;
 					$$.str = $2.str;
-					*/
 				};
 
 N_INPUT_EXPR	: T_INPUT
 				{
 					printRule("INPUT_EXPR", "input");
+					
+					//for(int i = 0; i 
 					$$.type = INT_OR_STR;
 				};
 
 N_EXPR_LIST : N_EXPR N_EXPR_LIST  
 			{
 				printRule("EXPR_LIST", "EXPR EXPR_LIST");
-                copyInfo($$,$2);
 				
-				/*$$.type = $2.type;
+				$$.type = $2.type;
 				$$.integer = $2.integer;
 				$$.boolean = $2.boolean;
-				$$.str = $2.str;*/
+				$$.str = $2.str;
+				
+                //copyInfo($$,$2);
+				
 			}
         	| N_EXPR
 			{
 				printRule("EXPR_LIST", "EXPR");
-				copyInfo($$,$1);
+				//copyInfo($$,$1);
 				
-				/*$$.type = $1.type;
+				$$.type = $1.type;
 				$$.integer = $1.integer;
 				$$.boolean = $1.boolean;
-				$$.str = $1.str;*/
+				$$.str = $1.str;
+				
 			};
 
 N_BIN_OP	: N_ARITH_OP
@@ -647,6 +698,11 @@ TYPE_INFO findEntryInAnyScope(const string theName)
 
 void cleanUp() 
 {
+	while (!scopeStack.empty())
+	{
+		scopeStack.pop();
+	}
+  /*
   if (scopeStack.empty()) 
     return;
 
@@ -655,13 +711,7 @@ void cleanUp()
     scopeStack.pop();
     cleanUp();
   }
-}
-
-void copyInfo(TYPE_INFO& target, TYPE_INFO& source){
-	target.type = source.type;
-	target.str = source.str;
-	target.integer = source.integer;
-	target.boolean = source.boolean;
+  */
 }
 
 int main(int argc, char** argv)
