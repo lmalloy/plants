@@ -120,23 +120,30 @@ COMMENT           ";".*$
 			printf("TOKEN: NOT       LEXEME: %s\n", yytext);
 			return T_NOT;
 			}
-{INTCONST}	     {
-			printf("TOKEN: INTCONST  LEXEME: %s\n", yytext);
-			return T_INTCONST;
+
+{INTCONST}	{
+				printf("TOKEN: INTCONST  LEXEME: %s\n", yytext);
+				yylval.typeInfo.integer = atoi(yytext); 
+				return T_INTCONST;
 			}
-{STRCONST}	     {
-			printf("TOKEN: STRCONST  LEXEME: %s\n", yytext);
-			return T_STRCONST;
+
+{STRCONST}	{
+				printf("TOKEN: STRCONST  LEXEME: %s\n", yytext);
+				yylval.typeInfo.str = strdup(yytext);
+				return T_STRCONST;
 			}
+
 {IDENT}		{
-			printf("TOKEN: IDENT     LEXEME: %s\n", yytext);
-			yylval.text = strdup(yytext);
-			return T_IDENT;
+				printf("TOKEN: IDENT     LEXEME: %s\n", yytext);
+				yylval.text = strdup(yytext);
+				return T_IDENT;
 			}
 {WSPACE}		{ }
+
 {NEWLINE}       {
                  lineNum++;
                 }
+				
 {COMMENT}		{ }
 .			{
 			printf("TOKEN: UNKNOWN   LEXEME: %s\n",
