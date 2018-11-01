@@ -937,38 +937,40 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 123 "malloytrendley.l"
+#line 124 "malloytrendley.l"
 {
-			printf("TOKEN: INTCONST  LEXEME: %s\n", yytext);
-			return T_INTCONST;
+				printf("TOKEN: INTCONST  LEXEME: %s\n", yytext);
+				yylval.typeInfo.integer = atoi(yytext); 
+				return T_INTCONST;
 			}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 127 "malloytrendley.l"
+#line 130 "malloytrendley.l"
 {
-			printf("TOKEN: STRCONST  LEXEME: %s\n", yytext);
-			return T_STRCONST;
+				printf("TOKEN: STRCONST  LEXEME: %s\n", yytext);
+				yylval.typeInfo.str = strdup(yytext);
+				return T_STRCONST;
 			}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 131 "malloytrendley.l"
+#line 136 "malloytrendley.l"
 {
-			printf("TOKEN: IDENT     LEXEME: %s\n", yytext);
-			yylval.text = strdup(yytext);
-			return T_IDENT;
+				printf("TOKEN: IDENT     LEXEME: %s\n", yytext);
+				yylval.text = strdup(yytext);
+				return T_IDENT;
 			}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 136 "malloytrendley.l"
+#line 141 "malloytrendley.l"
 { }
 	YY_BREAK
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 137 "malloytrendley.l"
+#line 143 "malloytrendley.l"
 {
                  lineNum++;
                 }
@@ -978,12 +980,12 @@ case 27:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 140 "malloytrendley.l"
+#line 147 "malloytrendley.l"
 { }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 141 "malloytrendley.l"
+#line 148 "malloytrendley.l"
 {
 			printf("TOKEN: UNKNOWN   LEXEME: %s\n",
 			       yytext);
@@ -992,10 +994,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 147 "malloytrendley.l"
+#line 154 "malloytrendley.l"
 ECHO;
 	YY_BREAK
-#line 999 "lex.yy.c"
+#line 1001 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2000,7 +2002,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 147 "malloytrendley.l"
+#line 154 "malloytrendley.l"
 
 
 
