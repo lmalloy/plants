@@ -17,6 +17,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring> 
 #include <iostream>
 #include <string>
 #include <stack>
@@ -496,7 +497,7 @@ N_INPUT_EXPR	: T_INPUT
 				{
 					printRule("INPUT_EXPR", "input");
 					
-										// input string
+					// input string
 					string input;
 					int n = input.length();
 					getline(cin, input);
