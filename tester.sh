@@ -33,7 +33,7 @@ do
   DIFF_FILE="$OUTPUTFOLDER"/"$FILE_NAME".out
   "$EXECNAME" "$IFILE" > "$OFILE"
   printf "Checking file: "$IFILE""
-  if ! cmp -s "$DIFF_FILE" "$OFILE"
+  if ! diff -w "$DIFF_FILE" "$OFILE"
   then
     echo -e "${RED} Differs!${NC}"
   else

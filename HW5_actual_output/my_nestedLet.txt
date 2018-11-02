@@ -160,4 +160,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-Value of the expression is 500 
+Value of the expression is: 500 

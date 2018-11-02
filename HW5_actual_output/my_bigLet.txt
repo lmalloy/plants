@@ -107,4 +107,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-Value of the expression is 217 
+Value of the expression is: 117 

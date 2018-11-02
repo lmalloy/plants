@@ -1313,21 +1313,21 @@ yyreduce:
 				
 				if((yyvsp[0].typeInfo).type == INT)
 				{
-					printf("\nValue of the expression is %d \n", (yyvsp[0].typeInfo).integer);	
+					printf("\nValue of the expression is: %d \n", (yyvsp[0].typeInfo).integer);	
 				}
 
 				else if ((yyvsp[0].typeInfo).type == STR)
 				{
-					printf("\nValue of the expression is %s \n", (yyvsp[0].typeInfo).str);	
+					printf("\nValue of the expression is: %s \n", (yyvsp[0].typeInfo).str);	
 				}
 				else if((yyvsp[0].typeInfo).boolean == true)
 				{
-					printf("\nValue of the expression is t \n");
+					printf("\nValue of the expression is: t \n");
 				}
 
 				else
 				{
-					printf("\nValue of the expression is nil \n");	
+					printf("\nValue of the expression is: nil \n");	
 				}
 
 				return 0;

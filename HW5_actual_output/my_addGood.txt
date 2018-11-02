@@ -22,4 +22,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-Value of the expression is -508 
+Value of the expression is: -508 

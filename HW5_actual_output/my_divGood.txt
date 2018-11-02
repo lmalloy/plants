@@ -17,4 +17,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-Value of the expression is 20 
+Value of the expression is: 20 

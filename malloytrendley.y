@@ -94,21 +94,21 @@ N_START		: N_EXPR
 				
 				if($1.type == INT)
 				{
-					printf("\nValue of the expression is %d \n", $1.integer);	
+					printf("\nValue of the expression is: %d \n", $1.integer);	
 				}
 
 				else if ($1.type == STR)
 				{
-					printf("\nValue of the expression is %s \n", $1.str);	
+					printf("\nValue of the expression is: %s \n", $1.str);	
 				}
 				else if($1.boolean == true)
 				{
-					printf("\nValue of the expression is t \n");
+					printf("\nValue of the expression is: t \n");
 				}
 
 				else
 				{
-					printf("\nValue of the expression is nil \n");	
+					printf("\nValue of the expression is: nil \n");	
 				}
 
 				return 0;
