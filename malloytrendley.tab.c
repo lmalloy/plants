@@ -493,11 +493,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    90,    90,   117,   128,   146,   158,   166,   173,   179,
-     186,   199,   209,   219,   230,   240,   251,   274,   450,   480,
-     494,   497,   512,   523,   531,   543,   555,   561,   567,   573,
-     578,   583,   588,   594,   599,   604,   609,   614,   619,   625,
-     629,   634
+       0,    90,    90,   117,   126,   144,   155,   162,   169,   175,
+     182,   192,   201,   210,   220,   229,   239,   260,   427,   450,
+     463,   466,   480,   495,   503,   514,   525,   531,   537,   543,
+     548,   553,   558,   564,   569,   574,   579,   584,   589,   595,
+     599,   604
 };
 #endif
 
@@ -1339,21 +1339,20 @@ yyreduce:
 #line 118 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("EXPR", "CONST");
-				
-				//copyInfo($$,$1);
-				
+							
 				(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 				(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 				(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 				(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 			}
-#line 1351 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1349 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 129 "malloytrendley.y" /* yacc.c:1646  */
+#line 127 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("EXPR", "IDENT");
+						
 				TYPE_INFO exprTypeInfo = findEntryInAnyScope(string((yyvsp[0].text)));
 
 				if (exprTypeInfo.type == UNDEFINED) 
@@ -1361,22 +1360,20 @@ yyreduce:
 					yyerror("Undefined identifier");
 					return(0);
 				}
-				
-				//copyInfo($$,exprTypeInfo);
-				
+						
 				(yyval.typeInfo).type = exprTypeInfo.type;
 				(yyval.typeInfo).integer = exprTypeInfo.integer;
 				(yyval.typeInfo).boolean = exprTypeInfo.boolean;
 				(yyval.typeInfo).str = exprTypeInfo.str;
+							
 			}
-#line 1373 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1371 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 147 "malloytrendley.y" /* yacc.c:1646  */
+#line 145 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("EXPR", "( PARENTHESIZED_EXPR )");
-				//copyInfo($$,$2);
 				
 				(yyval.typeInfo).type = (yyvsp[-1].typeInfo).type;
 				(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer;
@@ -1384,102 +1381,95 @@ yyreduce:
 				(yyval.typeInfo).str = (yyvsp[-1].typeInfo).str;
 	
 			}
-#line 1388 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1385 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 159 "malloytrendley.y" /* yacc.c:1646  */
+#line 156 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("CONST", "INTCONST");
                 (yyval.typeInfo).type = INT; 
 				(yyval.typeInfo).integer = yylval.typeInfo.integer;
 				(yyval.typeInfo).boolean = true;
-				//printf("Values of $$ and 1$ %d %d", $$.integer, yylval.typeInfo.integer);
 			}
-#line 1400 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1396 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 167 "malloytrendley.y" /* yacc.c:1646  */
+#line 163 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("CONST", "STRCONST");
                 (yyval.typeInfo).type = STR;
 				(yyval.typeInfo).str = yylval.typeInfo.str;
 				(yyval.typeInfo).boolean = true;
 			}
-#line 1411 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1407 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 174 "malloytrendley.y" /* yacc.c:1646  */
+#line 170 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("CONST", "t");
                 (yyval.typeInfo).type = BOOL; 
 				(yyval.typeInfo).boolean = true;
 			}
-#line 1421 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1417 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 180 "malloytrendley.y" /* yacc.c:1646  */
+#line 176 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("CONST", "nil");
 				(yyval.typeInfo).type = BOOL; 
 				(yyval.typeInfo).boolean = false;
 			}
-#line 1431 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1427 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 187 "malloytrendley.y" /* yacc.c:1646  */
+#line 183 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "ARITHLOGIC_EXPR");
-							
-							//copyInfo($$,$1);
-							
-							
+										
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 							(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 								
 						}
-#line 1448 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1441 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 200 "malloytrendley.y" /* yacc.c:1646  */
+#line 193 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "IF_EXPR");
-							//copyInfo($$,$1);
 							
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 							(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 						}
-#line 1462 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1454 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 210 "malloytrendley.y" /* yacc.c:1646  */
+#line 202 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "LET_EXPR");
-							//copyInfo($$,$1);
 							
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 							(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 						}
-#line 1476 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1467 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 220 "malloytrendley.y" /* yacc.c:1646  */
+#line 211 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "PRINT_EXPR");
-							//copyInfo($$,$1);
 							
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
@@ -1487,44 +1477,40 @@ yyreduce:
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 
 						}
-#line 1491 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1481 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 231 "malloytrendley.y" /* yacc.c:1646  */
+#line 221 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "INPUT_EXPR");
-							//copyInfo($$,$1);
 							
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 							(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 						}
-#line 1505 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1494 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 241 "malloytrendley.y" /* yacc.c:1646  */
+#line 230 "malloytrendley.y" /* yacc.c:1646  */
     {
 							printRule("PARENTHESIZED_EXPR", "EXPR_LIST");
-							//copyInfo($$,$1);
 							
 							(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 							(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 							(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 							(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 						}
-#line 1519 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1507 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 252 "malloytrendley.y" /* yacc.c:1646  */
+#line 240 "malloytrendley.y" /* yacc.c:1646  */
     {
 						printRule("ARITHLOGIC_EXPR", "UN_OP EXPR");
-											
-						//copyInfo($$,$2);
-						
+																	
 						(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 						(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 						(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
@@ -1542,11 +1528,11 @@ yyreduce:
 							(yyval.typeInfo).boolean = false;
 						}
 					}
-#line 1546 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1532 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 275 "malloytrendley.y" /* yacc.c:1646  */
+#line 261 "malloytrendley.y" /* yacc.c:1646  */
     {
 						printRule("ARITHLOGIC_EXPR", "BIN_OP EXPR EXPR");
 						(yyval.typeInfo).type = BOOL;
@@ -1570,7 +1556,6 @@ yyreduce:
 							if(arithmetic.top()=='+')
 							{
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer + (yyvsp[0].typeInfo).integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -1578,14 +1563,12 @@ yyreduce:
 							{
 								(yyval.typeInfo).boolean = true;
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer - (yyvsp[0].typeInfo).integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$., $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top()== '*')
 							{
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer * (yyvsp[0].typeInfo).integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -1593,14 +1576,13 @@ yyreduce:
 							{
 								if((yyvsp[0].typeInfo).integer == 0)
 								{ 
-									yyerror("Attempted division by zero\n");
+									yyerror("Attempted division by zero");
 								}
 
 								(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer / (yyvsp[0].typeInfo).integer;
-							//	printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
-					}
+						}
 					else if ((yyvsp[-2].num) == LOGICAL_OP)
 					{
 						if((yyvsp[-1].typeInfo).type & (yyvsp[0].typeInfo).type == INT|STR)
@@ -1619,8 +1601,8 @@ yyreduce:
 
 							if (!isIntOrStrCompatible((yyvsp[0].typeInfo).type)) 
 							{
-							yyerror("Arg 2 must be integer or string");
-							return(0);
+								yyerror("Arg 2 must be integer or string");
+								return(0);
 							}
 
 							if (isIntCompatible((yyvsp[-1].typeInfo).type) && !isIntCompatible((yyvsp[0].typeInfo).type)) 
@@ -1634,12 +1616,7 @@ yyreduce:
 								yyerror("Arg 2 must be string");
 								return(0);
 							}
-
-							if ((yyvsp[-1].typeInfo).type||(yyvsp[0].typeInfo).type == STR)
-							{
-								(yyval.typeInfo).boolean = false;
-							} 
-
+							
 							else if(relational.top() == ">")
 							{
 								if((yyvsp[-1].typeInfo).integer > (yyvsp[0].typeInfo).integer)
@@ -1694,7 +1671,7 @@ yyreduce:
 
 							else if(relational.top() == "=")
 							{
-								if ((yyvsp[-1].typeInfo).integer == (yyvsp[0].typeInfo).integer)
+								if (string((yyvsp[-1].typeInfo).str) == string((yyvsp[0].typeInfo).str))
 								{
 									(yyval.typeInfo).boolean = true;
 								}
@@ -1721,21 +1698,16 @@ yyreduce:
 						} //END RELATIONAL_OP
 						
 					}
-#line 1725 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1702 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 451 "malloytrendley.y" /* yacc.c:1646  */
+#line 428 "malloytrendley.y" /* yacc.c:1646  */
     {
 					printRule("IF_EXPR", "if EXPR EXPR EXPR");
-					
-					//printf("t_if: %d ", $2.boolean);
-					//printf("n_expr: %d ", $3.boolean);
-					//printf("t_n_: %d ", $4.boolean);
-					
+										
 					if((yyvsp[-2].typeInfo).boolean == true)
 					{
-						//copyInfo($$,$3);
 						
 						(yyval.typeInfo).type = (yyvsp[-1].typeInfo).type;
 						(yyval.typeInfo).integer = (yyvsp[-1].typeInfo).integer;
@@ -1748,17 +1720,15 @@ yyreduce:
 						(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 						(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 						(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
-						
-						//copyInfo($$,$4);
 					}
 					
 					//$$.type = $3.type | $4.type; 
 				}
-#line 1758 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1728 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 481 "malloytrendley.y" /* yacc.c:1646  */
+#line 451 "malloytrendley.y" /* yacc.c:1646  */
     {
 					printRule("LET_EXPR", "let* ( ID_EXPR_LIST ) EXPR");
 					endScope();
@@ -1767,28 +1737,26 @@ yyreduce:
 					(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 					(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 					(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
-					
-					//copyInfo($$,$5); 
+
 				}
-#line 1774 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1743 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 494 "malloytrendley.y" /* yacc.c:1646  */
+#line 463 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("ID_EXPR_LIST", "epsilon");
 				}
-#line 1782 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1751 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 498 "malloytrendley.y" /* yacc.c:1646  */
+#line 467 "malloytrendley.y" /* yacc.c:1646  */
     {
 					printRule("ID_EXPR_LIST", "ID_EXPR_LIST ( IDENT EXPR )");
 					string lexeme = string((yyvsp[-2].text));
-					TYPE_INFO exprTypeInfo = (yyvsp[-1].typeInfo);
 					printf("___Adding %s to symbol table\n", (yyvsp[-2].text));
-					bool success = scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(lexeme, exprTypeInfo));
+					bool success = scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(lexeme, (yyvsp[-1].typeInfo)));
 
 					if (! success) 
 					{
@@ -1796,36 +1764,40 @@ yyreduce:
 						return(0);
 					}
 				}
-#line 1800 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1768 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 513 "malloytrendley.y" /* yacc.c:1646  */
+#line 481 "malloytrendley.y" /* yacc.c:1646  */
     {
 					printRule("PRINT_EXPR", "print EXPR");
-					//copyInfo($$,$2);
 					
 					(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 					(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
 					(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 					(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
+					
+					if((yyvsp[0].typeInfo).type == STR)
+						printf("%s\n", (yyvsp[0].typeInfo).str);
+					else if((yyvsp[0].typeInfo).type == INT)
+						printf("%d\n", (yyvsp[0].typeInfo).integer);
 				}
-#line 1814 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1786 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 524 "malloytrendley.y" /* yacc.c:1646  */
+#line 496 "malloytrendley.y" /* yacc.c:1646  */
     {
 					printRule("INPUT_EXPR", "input");
 					
 					//for(int i = 0; i 
 					(yyval.typeInfo).type = INT_OR_STR;
 				}
-#line 1825 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1797 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 532 "malloytrendley.y" /* yacc.c:1646  */
+#line 504 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("EXPR_LIST", "EXPR EXPR_LIST");
 				
@@ -1834,17 +1806,15 @@ yyreduce:
 				(yyval.typeInfo).boolean = (yyvsp[0].typeInfo).boolean;
 				(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 				
-                //copyInfo($$,$2);
 				
 			}
-#line 1841 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1812 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 544 "malloytrendley.y" /* yacc.c:1646  */
+#line 515 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("EXPR_LIST", "EXPR");
-				//copyInfo($$,$1);
 				
 				(yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
 				(yyval.typeInfo).integer = (yyvsp[0].typeInfo).integer;
@@ -1852,152 +1822,152 @@ yyreduce:
 				(yyval.typeInfo).str = (yyvsp[0].typeInfo).str;
 				
 			}
-#line 1856 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1826 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 556 "malloytrendley.y" /* yacc.c:1646  */
+#line 526 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("BIN_OP", "ARITH_OP");
 				(yyval.num) = ARITHMETIC_OP;
 			}
-#line 1865 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1835 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 562 "malloytrendley.y" /* yacc.c:1646  */
+#line 532 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("BIN_OP", "LOG_OP");
 				(yyval.num) = LOGICAL_OP;
 			}
-#line 1874 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1844 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 568 "malloytrendley.y" /* yacc.c:1646  */
+#line 538 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("BIN_OP", "REL_OP");
 				(yyval.num) = RELATIONAL_OP;
 			}
-#line 1883 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1853 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 574 "malloytrendley.y" /* yacc.c:1646  */
+#line 544 "malloytrendley.y" /* yacc.c:1646  */
     {
 				arithmetic.push('+');
 				printRule("ARITH_OP", "+");
 			}
-#line 1892 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1862 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 579 "malloytrendley.y" /* yacc.c:1646  */
+#line 549 "malloytrendley.y" /* yacc.c:1646  */
     {
 				arithmetic.push('-');
 				printRule("ARITH_OP", "-");
 			}
-#line 1901 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1871 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 584 "malloytrendley.y" /* yacc.c:1646  */
+#line 554 "malloytrendley.y" /* yacc.c:1646  */
     {
 				arithmetic.push('*');
 				printRule("ARITH_OP", "*");
 			}
-#line 1910 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1880 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 589 "malloytrendley.y" /* yacc.c:1646  */
+#line 559 "malloytrendley.y" /* yacc.c:1646  */
     {
 				arithmetic.push('/');
 				printRule("ARITH_OP", "/");
 			}
-#line 1919 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1889 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 595 "malloytrendley.y" /* yacc.c:1646  */
+#line 565 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push("<");
 				printRule("REL_OP", "<");
 			}
-#line 1928 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1898 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 600 "malloytrendley.y" /* yacc.c:1646  */
+#line 570 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push(">");
 				printRule("REL_OP", ">");
 			}
-#line 1937 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1907 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 605 "malloytrendley.y" /* yacc.c:1646  */
+#line 575 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push("<=");
 				printRule("REL_OP", "<=");
 			}
-#line 1946 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1916 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 610 "malloytrendley.y" /* yacc.c:1646  */
+#line 580 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push(">=");
 				printRule("REL_OP", ">=");
 			}
-#line 1955 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1925 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 615 "malloytrendley.y" /* yacc.c:1646  */
+#line 585 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push("=");
 				printRule("REL_OP", "=");
 			}
-#line 1964 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1934 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 620 "malloytrendley.y" /* yacc.c:1646  */
+#line 590 "malloytrendley.y" /* yacc.c:1646  */
     {
 				relational.push("/=");
 				printRule("REL_OP", "/=");
 			}
-#line 1973 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1943 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 626 "malloytrendley.y" /* yacc.c:1646  */
+#line 596 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("LOG_OP", "and");
 			}
-#line 1981 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1951 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 630 "malloytrendley.y" /* yacc.c:1646  */
+#line 600 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("LOG_OP", "or");
 			}
-#line 1989 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1959 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 635 "malloytrendley.y" /* yacc.c:1646  */
+#line 605 "malloytrendley.y" /* yacc.c:1646  */
     {
 				printRule("UN_OP", "not");
 			}
-#line 1997 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1967 "malloytrendley.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2001 "malloytrendley.tab.c" /* yacc.c:1646  */
+#line 1971 "malloytrendley.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2225,7 +2195,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 638 "malloytrendley.y" /* yacc.c:1906  */
+#line 608 "malloytrendley.y" /* yacc.c:1906  */
 
 
 #include "lex.yy.c"
@@ -2266,24 +2236,25 @@ void endScope() {
   printf("\n___Exiting scope...\n\n");
 }
 
-TYPE_INFO findEntryInAnyScope(const string theName) 
+TYPE_INFO findEntryInAnyScope(const string theName)
 {
-  TYPE_INFO info = {UNDEFINED};
-
-  if (scopeStack.empty( )) 
-  	return(info);
-
-  info = scopeStack.top().findEntry(theName);
-
-  if (info.type != UNDEFINED)
-    return(info);
-
-  else { // check in "next higher" scope
-	   SYMBOL_TABLE symbolTable = scopeStack.top( );
-	   scopeStack.pop( );
-	   info = findEntryInAnyScope(theName);
-	   scopeStack.push(symbolTable); // restore the stack
-	   return(info);
+  TYPE_INFO entry = {UNDEFINED};
+  if (scopeStack.empty() == true)
+  {
+	return(entry);
+  }
+  entry = scopeStack.top().findEntry(theName);
+  if (entry.type != UNDEFINED)
+  {
+	return(entry);
+  }
+  else 
+  {
+	   SYMBOL_TABLE symbolTable = scopeStack.top();
+	   scopeStack.pop();
+	   entry = findEntryInAnyScope(theName);
+	   scopeStack.push(symbolTable);
+	   return(entry);
   }
 }
 

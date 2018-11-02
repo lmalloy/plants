@@ -21,4 +21,3 @@ TOKEN: RPAREN    LEXEME: )
 EXPR -> ( PARENTHESIZED_EXPR )
 ARITHLOGIC_EXPR -> BIN_OP EXPR EXPR
 Line 1: Attempted division by zero
-

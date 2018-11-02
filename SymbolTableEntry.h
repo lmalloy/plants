@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-#define UNDEFINED  			      -1   // Type codes
+#define UNDEFINED -1   // Type codes
 #define INT				             1
 #define STR				             2
 #define INT_OR_STR			       3

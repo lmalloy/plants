@@ -117,9 +117,7 @@ N_START		: N_EXPR
 N_EXPR		: N_CONST
 			{
 				printRule("EXPR", "CONST");
-				
-				//copyInfo($$,$1);
-				
+							
 				$$.type = $1.type;
 				$$.integer = $1.integer;
 				$$.boolean = $1.boolean;
@@ -128,6 +126,7 @@ N_EXPR		: N_CONST
 			| T_IDENT
 			{
 				printRule("EXPR", "IDENT");
+						
 				TYPE_INFO exprTypeInfo = findEntryInAnyScope(string($1));
 
 				if (exprTypeInfo.type == UNDEFINED) 
@@ -135,18 +134,16 @@ N_EXPR		: N_CONST
 					yyerror("Undefined identifier");
 					return(0);
 				}
-				
-				//copyInfo($$,exprTypeInfo);
-				
+						
 				$$.type = exprTypeInfo.type;
 				$$.integer = exprTypeInfo.integer;
 				$$.boolean = exprTypeInfo.boolean;
 				$$.str = exprTypeInfo.str;
+							
 			}
 			| T_LPAREN N_PARENTHESIZED_EXPR T_RPAREN
 			{
 				printRule("EXPR", "( PARENTHESIZED_EXPR )");
-				//copyInfo($$,$2);
 				
 				$$.type = $2.type;
 				$$.integer = $2.integer;
@@ -161,7 +158,6 @@ N_CONST		: T_INTCONST
                 $$.type = INT; 
 				$$.integer = yylval.typeInfo.integer;
 				$$.boolean = true;
-				//printf("Values of $$ and 1$ %d %d", $$.integer, yylval.typeInfo.integer);
 			}
             | T_STRCONST
 			{
@@ -186,10 +182,7 @@ N_CONST		: T_INTCONST
 N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "ARITHLOGIC_EXPR");
-							
-							//copyInfo($$,$1);
-							
-							
+										
 							$$.type = $1.type;
 							$$.integer = $1.integer;
 							$$.boolean = $1.boolean;
@@ -199,7 +192,6 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
                       	| N_IF_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "IF_EXPR");
-							//copyInfo($$,$1);
 							
 							$$.type = $1.type;
 							$$.integer = $1.integer;
@@ -209,7 +201,6 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
                       	| N_LET_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "LET_EXPR");
-							//copyInfo($$,$1);
 							
 							$$.type = $1.type;
 							$$.integer = $1.integer;
@@ -219,7 +210,6 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
 						| N_PRINT_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "PRINT_EXPR");
-							//copyInfo($$,$1);
 							
 							$$.type = $1.type;
 							$$.integer = $1.integer;
@@ -230,7 +220,6 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
 						| N_INPUT_EXPR 
 						{
 							printRule("PARENTHESIZED_EXPR", "INPUT_EXPR");
-							//copyInfo($$,$1);
 							
 							$$.type = $1.type;
 							$$.integer = $1.integer;
@@ -240,7 +229,6 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
 						| N_EXPR_LIST 
 						{
 							printRule("PARENTHESIZED_EXPR", "EXPR_LIST");
-							//copyInfo($$,$1);
 							
 							$$.type = $1.type;
 							$$.integer = $1.integer;
@@ -251,9 +239,7 @@ N_PARENTHESIZED_EXPR	: N_ARITHLOGIC_EXPR
 N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 					{
 						printRule("ARITHLOGIC_EXPR", "UN_OP EXPR");
-											
-						//copyInfo($$,$2);
-						
+																	
 						$$.type = $2.type;
 						$$.integer = $2.integer;
 						$$.boolean = $2.boolean;
@@ -295,7 +281,6 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							if(arithmetic.top()=='+')
 							{
 								$$.integer = $2.integer + $3.integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -303,14 +288,12 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							{
 								$$.boolean = true;
 								$$.integer = $2.integer - $3.integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$., $3.integer);
 								arithmetic.pop();
 							}
 
 							else if(arithmetic.top()== '*')
 							{
 								$$.integer = $2.integer * $3.integer;
-								//printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
 
@@ -318,14 +301,13 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							{
 								if($3.integer == 0)
 								{ 
-									yyerror("Attempted division by zero\n");
+									yyerror("Attempted division by zero");
 								}
 
 								$$.integer = $2.integer / $3.integer;
-							//	printf("Values of $$ and 1$ %d %d\n\n", $$.integer, $3.integer);
 								arithmetic.pop();
 							}
-					}
+						}
 					else if ($1 == LOGICAL_OP)
 					{
 						if($2.type & $3.type == INT|STR)
@@ -344,8 +326,8 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 
 							if (!isIntOrStrCompatible($3.type)) 
 							{
-							yyerror("Arg 2 must be integer or string");
-							return(0);
+								yyerror("Arg 2 must be integer or string");
+								return(0);
 							}
 
 							if (isIntCompatible($2.type) && !isIntCompatible($3.type)) 
@@ -359,12 +341,7 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 								yyerror("Arg 2 must be string");
 								return(0);
 							}
-
-							if ($2.type||$3.type == STR)
-							{
-								$$.boolean = false;
-							} 
-
+							
 							else if(relational.top() == ">")
 							{
 								if($2.integer > $3.integer)
@@ -419,7 +396,7 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 
 							else if(relational.top() == "=")
 							{
-								if ($2.integer == $3.integer)
+								if (string($2.str) == string($3.str))
 								{
 									$$.boolean = true;
 								}
@@ -450,14 +427,9 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 N_IF_EXPR    	: T_IF N_EXPR N_EXPR N_EXPR
 				{
 					printRule("IF_EXPR", "if EXPR EXPR EXPR");
-					
-					//printf("t_if: %d ", $2.boolean);
-					//printf("n_expr: %d ", $3.boolean);
-					//printf("t_n_: %d ", $4.boolean);
-					
+										
 					if($2.boolean == true)
 					{
-						//copyInfo($$,$3);
 						
 						$$.type = $3.type;
 						$$.integer = $3.integer;
@@ -470,8 +442,6 @@ N_IF_EXPR    	: T_IF N_EXPR N_EXPR N_EXPR
 						$$.integer = $4.integer;
 						$$.boolean = $4.boolean;
 						$$.str = $4.str;
-						
-						//copyInfo($$,$4);
 					}
 					
 					//$$.type = $3.type | $4.type; 
@@ -486,8 +456,7 @@ N_LET_EXPR      : T_LETSTAR T_LPAREN N_ID_EXPR_LIST T_RPAREN N_EXPR
 					$$.integer = $5.integer;
 					$$.boolean = $5.boolean;
 					$$.str = $5.str;
-					
-					//copyInfo($$,$5); 
+
 				};
 
 N_ID_EXPR_LIST  : /* epsilon */
@@ -498,9 +467,8 @@ N_ID_EXPR_LIST  : /* epsilon */
 				{
 					printRule("ID_EXPR_LIST", "ID_EXPR_LIST ( IDENT EXPR )");
 					string lexeme = string($3);
-					TYPE_INFO exprTypeInfo = $4;
 					printf("___Adding %s to symbol table\n", $3);
-					bool success = scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(lexeme, exprTypeInfo));
+					bool success = scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(lexeme, $4));
 
 					if (! success) 
 					{
@@ -512,12 +480,16 @@ N_ID_EXPR_LIST  : /* epsilon */
 N_PRINT_EXPR    : T_PRINT N_EXPR
 				{
 					printRule("PRINT_EXPR", "print EXPR");
-					//copyInfo($$,$2);
 					
 					$$.type = $2.type;
 					$$.integer = $2.integer;
 					$$.boolean = $2.boolean;
 					$$.str = $2.str;
+					
+					if($2.type == STR)
+						printf("%s\n", $2.str);
+					else if($2.type == INT)
+						printf("%d\n", $2.integer);
 				};
 
 N_INPUT_EXPR	: T_INPUT
@@ -537,13 +509,11 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
 				$$.boolean = $2.boolean;
 				$$.str = $2.str;
 				
-                //copyInfo($$,$2);
 				
 			}
         	| N_EXPR
 			{
 				printRule("EXPR_LIST", "EXPR");
-				//copyInfo($$,$1);
 				
 				$$.type = $1.type;
 				$$.integer = $1.integer;
@@ -675,24 +645,25 @@ void endScope() {
   printf("\n___Exiting scope...\n\n");
 }
 
-TYPE_INFO findEntryInAnyScope(const string theName) 
+TYPE_INFO findEntryInAnyScope(const string theName)
 {
-  TYPE_INFO info = {UNDEFINED};
-
-  if (scopeStack.empty( )) 
-  	return(info);
-
-  info = scopeStack.top().findEntry(theName);
-
-  if (info.type != UNDEFINED)
-    return(info);
-
-  else { // check in "next higher" scope
-	   SYMBOL_TABLE symbolTable = scopeStack.top( );
-	   scopeStack.pop( );
-	   info = findEntryInAnyScope(theName);
-	   scopeStack.push(symbolTable); // restore the stack
-	   return(info);
+  TYPE_INFO entry = {UNDEFINED};
+  if (scopeStack.empty() == true)
+  {
+	return(entry);
+  }
+  entry = scopeStack.top().findEntry(theName);
+  if (entry.type != UNDEFINED)
+  {
+	return(entry);
+  }
+  else 
+  {
+	   SYMBOL_TABLE symbolTable = scopeStack.top();
+	   scopeStack.pop();
+	   entry = findEntryInAnyScope(theName);
+	   scopeStack.push(symbolTable);
+	   return(entry);
   }
 }
 
