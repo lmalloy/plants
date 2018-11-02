@@ -13,4 +13,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-Value of the expression is "bad" 
+Value of the expression is nil 
