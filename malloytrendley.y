@@ -102,6 +102,7 @@ N_START		: N_EXPR
 				{
 					printf("\nValue of the expression is: %s \n", $1.str);	
 				}
+
 				else if($1.boolean == true)
 				{
 					printf("\nValue of the expression is: t \n");
@@ -281,6 +282,7 @@ N_ARITHLOGIC_EXPR	: N_UN_OP N_EXPR
 							
 							if(arithmetic.top()=='+')
 							{
+								$$.boolean = true;
 								$$.integer = $2.integer + $3.integer;
 								arithmetic.pop();
 							}
@@ -444,8 +446,6 @@ N_IF_EXPR    	: T_IF N_EXPR N_EXPR N_EXPR
 						$$.boolean = $4.boolean;
 						$$.str = $4.str;
 					}
-					
-					//$$.type = $3.type | $4.type; 
 				};
 
 N_LET_EXPR      : T_LETSTAR T_LPAREN N_ID_EXPR_LIST T_RPAREN N_EXPR
@@ -462,7 +462,7 @@ N_LET_EXPR      : T_LETSTAR T_LPAREN N_ID_EXPR_LIST T_RPAREN N_EXPR
 
 N_ID_EXPR_LIST  : /* epsilon */
 				{
-				printRule("ID_EXPR_LIST", "epsilon");
+					printRule("ID_EXPR_LIST", "epsilon");
 				}
                 | N_ID_EXPR_LIST T_LPAREN T_IDENT N_EXPR T_RPAREN 
 				{
@@ -503,11 +503,11 @@ N_INPUT_EXPR	: T_INPUT
 					getline(cin, input);
 
 					// the array is the length of string
-					char inputArray[n + 1];
+					char inputArray[n + 1]={0};		//init every char in array to null
 
 					// copy into array
 					strcpy(inputArray, input.c_str());
-					
+
 					//string digitStr = "[^0-9]";
 
 					//regex regdigit(digitStr);
@@ -516,26 +516,30 @@ N_INPUT_EXPR	: T_INPUT
 					if (inputArray[0] == '+')
 					{
 						$$.type = INT;
-						cout << endl << "plus: input is now int" << endl;
+						$$.integer = atoi(inputArray);
+						//cout << endl << "plus: input is now int" << endl;
 					}
 
 					else if(inputArray[0] == '-')
 					{
 						$$.type = INT;
-						cout << endl << "minus: input is now int" << endl;
+						$$.integer = atoi(inputArray);
+						//cout << endl << "minus: input is now int" << endl;
 					}
 
 					if(isdigit(inputArray[0]))
 					{
 						$$.type = INT;
-						cout << endl << "digit: input is now int";
+						$$.integer = atoi(inputArray);
+						//cout << endl << "digit: input is now int";
 						//cout << regex_match(input, regdigit);
 					}
 
 					else if(!isdigit(inputArray[0]) && !(inputArray[0] == '+') && !(inputArray[0] == '-'))
 					{
 						$$.type = STR;
-						cout << endl << "other: input is now str";
+						$$.str = inputArray;
+						//cout << endl << "other: input is now str";
 					}
 				};
 
@@ -547,8 +551,7 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
 				$$.integer = $2.integer;
 				$$.boolean = $2.boolean;
 				$$.str = $2.str;
-				
-				
+
 			}
         	| N_EXPR
 			{
@@ -674,12 +677,14 @@ void printRule(const char* lhs, const char* rhs)
   return;
 }
 
-void beginScope() {
+void beginScope() 
+{
   scopeStack.push(SYMBOL_TABLE());
   printf("\n___Entering new scope...\n\n");
 }
 
-void endScope() {
+void endScope() 
+{
   scopeStack.pop();
   printf("\n___Exiting scope...\n\n");
 }
@@ -692,6 +697,7 @@ TYPE_INFO findEntryInAnyScope(const string theName)
 	return(entry);
   }
   entry = scopeStack.top().findEntry(theName);
+
   if (entry.type != UNDEFINED)
   {
 	return(entry);
