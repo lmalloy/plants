@@ -496,8 +496,46 @@ N_INPUT_EXPR	: T_INPUT
 				{
 					printRule("INPUT_EXPR", "input");
 					
-					//for(int i = 0; i 
-					$$.type = INT_OR_STR;
+										// input string
+					string input;
+					int n = input.length();
+					getline(cin, input);
+
+					// the array is the length of string
+					char inputArray[n + 1];
+
+					// copy into array
+					strcpy(inputArray, input.c_str());
+					
+					//string digitStr = "[^0-9]";
+
+					//regex regdigit(digitStr);
+					
+					// check first element of array
+					if (inputArray[0] == '+')
+					{
+						$$.type = INT;
+						cout << endl << "plus: input is now int" << endl;
+					}
+
+					else if(inputArray[0] == '-')
+					{
+						$$.type = INT;
+						cout << endl << "minus: input is now int" << endl;
+					}
+
+					if(isdigit(inputArray[0]))
+					{
+						$$.type = INT;
+						cout << endl << "digit: input is now int";
+						//cout << regex_match(input, regdigit);
+					}
+
+					else if(!isdigit(inputArray[0]) && !(inputArray[0] == '+') && !(inputArray[0] == '-'))
+					{
+						$$.type = STR;
+						cout << endl << "other: input is now str";
+					}
 				};
 
 N_EXPR_LIST : N_EXPR N_EXPR_LIST  
