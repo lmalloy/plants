@@ -86,8 +86,4 @@ START -> EXPR
 ---- Completed parsing ----
 
 
-<<<<<<< HEAD
 Value of the expression is: 1 
-=======
-Value of the expression is 1 
->>>>>>> f4a71bb4d07c3b0ea4e18541a050efcd2d2c967b
