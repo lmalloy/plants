@@ -45,7 +45,7 @@ public:
   }
 
   
-  void updateTypeInfo(TYPE_INFO& _new, TYPE_INFO& old)
+  void TypeInfo(TYPE_INFO& _new, TYPE_INFO& old)
   {
     _new.type = old.type;
     _new.integer = old.integer;
