@@ -69,6 +69,10 @@ do
         # run prolog on studentid.pl for each case, redirect output to folder
         swipl $program $input > $outpath
 
+        # append newline to output files in outpath
+        echo -e "\r" >> $outpath
+        #sed -i -e '$a\' $outpath > $outpath
+
         # expected file
         cd "expectedOutput/"
         expectedfile=`ls|grep $casenumber`          # determine the input file by casenumber
@@ -78,8 +82,9 @@ do
         expectedpath="$expectedfolder/$expectedfile"
 
         # check against expected output
-        if diff -w --ignore-all-space $outpath $expectedpath;
+        if diff -w -B -Z $outpath $expectedpath;
         then
+            echo -e "\r\n"
             correct=$((correct+1))
 
             # check for cheating
@@ -91,6 +96,7 @@ do
                 manualgrade="false"
             fi
         else
+            echo -e "\r\n"
             wrong=$((wrong+1))
         fi  
 

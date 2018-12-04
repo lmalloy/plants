@@ -1,6 +1,6 @@
 duckd, 0
 
-leopoldj, 100*
+leopoldj, 100
 
-simpsonh, 0*
+simpsonh, 0
 
