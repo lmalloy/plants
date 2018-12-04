@@ -1,0 +1,6 @@
+duckd, 0
+
+leopoldj, 100*
+
+simpsonh, 0*
+
