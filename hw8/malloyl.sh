@@ -36,7 +36,7 @@ cd ..
 for i in "$subfolder"/*.pl
 do
     # init/reset var for counting input cases per student
-    casenumber=0
+    casenumber=-1
     # grab persons last "name+firstinitial"
     filename="${i##*/}"
     studentid="${filename%.*}"
@@ -54,6 +54,11 @@ do
     percentage=0
     # init/reset var for manual grading
     manualgrade="false"
+
+    # place input files in array
+    inputfiles=( sampleInput/*.txt )
+    echo "${inputfiles[0]}"
+    echo "${inputfiles[1]}"
 
     # loop through all inputs to be tested on the student's submission
     for j in "$inputfolder"/*.txt
@@ -75,42 +80,41 @@ do
 
         # expected file
         cd "expectedOutput/"
-        expectedfile=`ls|grep $casenumber`          # determine the input file by casenumber
-        cd ..
-
-        # total cases
-        expectedpath="$expectedfolder/$expectedfile"
+        expectedfile="${inputfiles[$casenumber]}"        # grab expected output file to 
+        cd ..                                            # diff with student output
+        
 
         # check against expected output
-        if diff -w -B -Z $outpath $expectedpath;
+        if diff -q -w -B -Z $outpath $expectedfile;
         then
-            echo -e "\r\n"
             correct=$((correct+1))
 
             # check for cheating
             studentoutput=`cat $outpath`
-
+            # -q for quiet # -E -o
             if grep -q "$studentoutput" $program; then
-                manualgrade="true" 
+                manualgrade=1 
             else
-                manualgrade="false"
+                manualgrade=0
             fi
         else
-            echo -e "\r\n"
             wrong=$((wrong+1))
         fi  
 
         # add up total cases counted
-        countedcases=$((correct+wrong))
+        #countedcases=$((correct+wrong))
 
         # calculate total score
-        percentage=$((correct/totalcases*100))
-        
+        bc <<< 'scale=2'
+        float=`echo "$correct / $totalcases" | bc -l`
+        # perform floating point arithmetic     # remove trailing zeroes if there is a decimal separator
+        percentage=`echo "$float * 100" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//'` 
+
     done
 
     # write the student name and percentage in the file 
     entry="$studentid, $percentage"
-    if [ "$manualgrade" == "false" ]; then
+    if [ "$manualgrade" == 0 ]; then
         echo -e "$entry\r\n" >> "grades.txt"
     else
     # indicate with * if manual grade necessary
