@@ -36,9 +36,11 @@ cd ..
 for i in "$subfolder"/*.pl
 do
     # init/reset var for counting input cases per student
-    casenumber=-1
-    # grab persons last "name+firstinitial"
+    casenumber=0
+    
+    # grab file name
     filename="${i##*/}"
+    # student's last "name+firstinitial"
     studentid="${filename%.*}"
 
     # make a unique student directory to hold output
@@ -56,9 +58,9 @@ do
     manualgrade="false"
 
     # place input files in array
-    inputfiles=( sampleInput/*.txt )
-    echo "${inputfiles[0]}"
-    echo "${inputfiles[1]}"
+    expectedoutfiles=( expectedOutput/*.txt.out )
+    #echo "${inputfiles[0]}"
+    #echo "${inputfiles[1]}"
 
     # loop through all inputs to be tested on the student's submission
     for j in "$inputfolder"/*.txt
@@ -70,25 +72,32 @@ do
         
         # output file path
         outpath="$resultsfolder/$studentid/$studentid$casenumber.out" 
+        #echo $outpath
 
         # run prolog on studentid.pl for each case, redirect output to folder
         swipl $program $input > $outpath
 
         # append newline to output files in outpath
-        echo -e "\r" >> $outpath
+        echo -e "\r\n" >> $outpath
         #sed -i -e '$a\' $outpath > $outpath
 
         # expected file
         cd "expectedOutput/"
-        expectedfile="${inputfiles[$casenumber]}"        # grab expected output file to 
+        index=$((casenumber-1))
+        expectedfile="${expectedoutfiles[$index]}"        # grab expected output file to 
+        #echo $expectedfile
+        #echo -e "\r\n"
         cd ..                                            # diff with student output
         
-
         # check against expected output
-        if diff -q -w -B -Z $outpath $expectedfile;
+        #if diff -w -B -Z $outpath $expectedfile;
+        #if diff $outpath $expectedfile;
+        lineno=1
+        if diff -w -B -Z <(head -n 1 "$outpath") <(head -n 1 "${expectedfile}")
+        #if diff $outpath $expectedfile;
         then
             correct=$((correct+1))
-
+            #echo -e "\r\n"
             # check for cheating
             studentoutput=`cat $outpath`
             # -q for quiet # -E -o
