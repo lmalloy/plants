@@ -3,11 +3,16 @@
 # @author: Luke Malloy
 # @description: CS3500 Homework 8: Bash Script - Autograding
 
-# Unzip the files
-
-# unzip -qq "sampleInput.ZIP" -d "sampleInput"
-# unzip -qq "expectedOutput.ZIP" -d "expectedOutput"
-# unzip -qq "submissions.ZIP" -d "submissions"
+# If folders present
+if ! [ -d "sampleInput" ] && [ -d "expectedOutput" ] && [ -d "submissions" ];
+then
+    # Unzip the files
+    unzip -qq "sampleInput.ZIP" -d "sampleInput"
+    unzip -qq "expectedOutput.ZIP" -d "expectedOutput"
+    unzip -qq "submissions.ZIP" -d "submissions"
+else
+    echo "One of the following directories already exists: sampleInput, expectedOutput, submissions"
+fi
 
 ########### dos2unix ran on all files before testing ##############
 
@@ -81,19 +86,14 @@ do
         echo -e "\r\n" >> $outpath
         #sed -i -e '$a\' $outpath > $outpath
 
-        # expected file
-        cd "expectedOutput/"
+        # index is one less than case number
         index=$((casenumber-1))
-        expectedfile="${expectedoutfiles[$index]}"        # grab expected output file to 
-        #echo $expectedfile
-        #echo -e "\r\n"
-        cd ..                                            # diff with student output
+
+        # expected output file from array
+        expectedfile="${expectedoutfiles[$index]}"        
         
         # check against expected output
-        #if diff -w -B -Z $outpath $expectedfile;
-        #if diff $outpath $expectedfile;
-        lineno=1
-        if diff -w -B -Z <(head -n 1 "$outpath") <(head -n 1 "${expectedfile}")
+        if diff -q -w -B -Z <(head -n 1 "$outpath") <(head -n 1 "${expectedfile}")
         #if diff $outpath $expectedfile;
         then
             correct=$((correct+1))
@@ -101,7 +101,7 @@ do
             # check for cheating
             studentoutput=`cat $outpath`
             # -q for quiet # -E -o
-            if grep -q "$studentoutput" $program; then
+            if grep "$studentoutput" $program; then
                 manualgrade=1 
             else
                 manualgrade=0
